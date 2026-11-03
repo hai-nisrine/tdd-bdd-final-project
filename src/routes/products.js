@@ -37,4 +37,21 @@ router.post('/', checkContentType('application/json'), validateProduct, async (r
 });
 
 
+// READ A PRODUCT 
+router.get('/:id', async (req, res) => {
+  try {
+    console.log('Request to Retrieve a product with id [%s]', req.params.id);
+    const product = await Product.findByPk(req.params.id);
+    if (product) {
+      res.status(200).json(product.serialize());
+    } else {
+      res.status(404).json({ error: 'Not Found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 module.exports = router;

@@ -119,6 +119,25 @@ describe('Product Routes', () => {
 
 
   // ADD TEST HERE
+
+  test('should get a single product', async () => {
+    const products = await createProducts(1);
+    const testProduct = products[0];
+   
+    const response = await request(app)
+      .get(`${BASE_URL}/${testProduct.id}`)
+      .expect(200);
+   
+    expect(response.body.name).toBe(testProduct.name);
+  });
+
+  test('should not get a product that is not found', async () => {
+    await request(app)
+      .get(`${BASE_URL}/99999`)
+      .expect(404);
+  });
+
+  
   
   
 });
